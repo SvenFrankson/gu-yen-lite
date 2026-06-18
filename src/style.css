@@ -1,0 +1,232 @@
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+:root {
+    --ui-color: #00ffff;
+}
+
+body {
+    background: #03111a;
+}
+
+#render-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    -drag: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+#debug-container {
+	position: fixed;
+	top: 110px;
+	right: 10px;
+	width: 400px;
+	padding: 10px;
+	font-size: 16px;
+	color: var(--ui-color);
+	text-align: right;
+	font-family: monospace;
+	z-index: 1;
+	background-color: rgba(0, 0, 0, 50%);
+	pointer-events: none;
+}
+
+#pointer {
+    position: fixed;
+    left: calc(50% - 2.5px);
+    top: calc(50% - 2.5px);
+    width: 5px;
+    height: 5px;
+    background-color: var(--ui-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Inventory UI */
+.player-inventory-title {
+    height: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 15px;
+    margin: 10px 0;
+    color: var(--ui-color);
+    font-family: monospace;
+    border-bottom: 1px solid var(--ui-color);
+}
+
+.player-inventory-close-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
+    background-color: var(--ui-color);
+    color: rgba(32, 32, 32, 1);
+    font-family: monospace;
+    border: 1px solid rgba(32, 32, 32, 1);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.player-inventory-container {
+    --width: 500px;
+    --height: 370px;
+    position: fixed;
+    top: calc(50% - var(--height) / 2);
+    right: calc(50% - var(--width) / 2);
+    border: 1px solid var(--ui-color);
+    background-color: rgba(32, 32, 32, 0.8);
+    border-radius: 5px;
+    width: var(--width);
+    height: var(--height);
+    text-align: center;
+}
+
+.player-inventory-slot {
+    position: relative;
+    display: inline-block;
+    border: 1px solid var(--ui-color);
+    background-color: rgba(32, 32, 32, 0.8);
+    border-radius: 3px;
+    color: white;
+    font-family: monospace;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin: 4px;
+    padding: 0px;
+    fill: var(--ui-color);
+    vertical-align: text-top;
+    user-select: none;
+}
+
+.player-inventory-slot:hover {
+    border: 2px solid var(--ui-color);
+    margin: 3px;
+}
+
+.player-inventory-slot .label {
+    position: absolute;
+    width: fit-content;
+    max-width: calc(100% - 8px);
+    overflow: hidden;
+    left: 0px;
+    right: 0px;
+    padding: 0px 4px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: monospace;
+    color: var(--ui-color);
+    border-radius: 3px;
+    background-color: rgba(32, 32, 32, 0.8);
+    z-index: 1;
+}
+
+.player-inventory-slot:hover .label {
+    max-width: 500px;
+    background-color: rgba(32, 32, 32, 1);
+    border: 2px solid var(--ui-color);
+    margin: -2px;
+    z-index: 2;
+}
+
+.player-inventory-slot .icon-container {
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+}
+
+.player-inventory-slot .icon-container svg {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.player-inventory-slot .icon-container img {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Player Action UI */
+.player-action-container {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.player-action-slot {
+	position: relative;
+    border: 1px solid var(--ui-color);
+	background-color: rgba(32, 32, 32, 0.8);
+    border-radius: 5px;
+    color: white;
+    font-family: sans-serif;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s;
+    width: 50px;
+    height: 50px;
+	padding: 10px;
+	fill: var(--ui-color);
+    user-select: none;
+}
+
+.player-action-slot.highlighted {
+    border: 6px double var(--ui-color);
+    border-radius: 10px;
+	margin: -5px;
+}
+
+.player-action-slot .icon-container {
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+}
+
+.player-action-slot .icon-container svg {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.player-action-slot .icon-container img {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.player-action-slot-index {
+	position: absolute;
+	bottom: 2px;
+	right: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: monospace;
+	color: var(--ui-color);
+}
